@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sana Farasat Portfolio Bot — Frontend
 
-## Getting Started
+A modern, attractive chat UI for the **Sana Farasat** portfolio assistant. Built with Next.js, it talks to the FastAPI backend to answer questions about Sana, and includes a **built-in voice bot** (speech recognition + speech synthesis) — no extra setup needed.
 
-First, run the development server:
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **UI Library:** React 19
+- **Styling:** Tailwind CSS v4
+- **Language:** TypeScript
+- **Voice:** Web Speech API (`SpeechRecognition` + `speechSynthesis`)
+
+## Features
+
+- 💬 Chatty AI assistant **Sage** for Sana Farasat's portfolio
+- 🎙️ **Voice input** — speak instead of typing (Chrome/Edge)
+- 🔊 **Voice replies** — bot speaks its answers (toggle on/off)
+- 💡 Suggestion chips for quick questions
+- ⏳ Typing indicator & auto-scroll
+- 🌗 Light/dark mode support
+- 📱 Fully responsive layout with header & footer
+
+## Project Structure
+
+```txt
+portfolio-bot-frontend/
+├── app/
+│   ├── layout.tsx      # Root layout
+│   ├── page.tsx        # Chat UI (header, messages, input, footer, voice)
+│   ├── globals.css     # Tailwind + global styles
+│   └── docs.md         # React hooks & voice notes
+├── .env.local          # Backend URL
+└── README.md
+```
+
+## Prerequisites
+
+- Node.js 18+
+- The backend running (see `portfolio-bot-backend`)
+
+## Setup
+
+1. **Clone and enter the directory:**
+
+   ```bash
+   cd portfolio-bot-frontend
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Configure the backend URL:** create a `.env.local` file:
+
+   ```env
+   NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+   ```
+
+   Update the URL if your backend runs elsewhere.
+
+## Run (Development)
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build & Start (Production)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Lint
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How it works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The page sends the user's message to the backend:
 
-## Deploy on Vercel
+```http
+POST http://localhost:8000/api/chat
+Content-Type: application/json
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```json
+{ "message": "Who is Sana Farasat?" }
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The backend replies with a `reply` string that is shown as a message and (if voice is on) read aloud.
+
+### Voice Notes
+
+- **Voice input** uses `SpeechRecognition`, which works best in **Chrome/Edge**.
+- **Voice replies** use `speechSynthesis`, configurable via the 🔊 toggle in the header.
